@@ -83,6 +83,9 @@ void setupTopology(const TopologyState& state) {
         // Uplink is configured for receive so a socket task is started
         comDriver.start(name, COMM_PRIORITY, Default::STACK_SIZE);
     }
+
+    const char* device = "/dev/i2c-1";
+    i2cDriver.open(device);
 }
 
 void startRateGroups() {

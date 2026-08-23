@@ -32,6 +32,8 @@ module ImuDeployment {
     instance timer
     instance comDriver
     instance cmdSeq
+    instance i2cDriver
+    instance IMUManager
 
   # ----------------------------------------------------------------------
   # Pattern graph specifiers
@@ -129,7 +131,8 @@ module ImuDeployment {
     }
 
     connections ImuDeployment {
-
+      IMUManager.i2cWriteRead -> i2cDriver.writeRead
+      IMUManager.i2cWrite -> i2cDriver.write
     }
 
   }

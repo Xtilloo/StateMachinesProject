@@ -49,6 +49,11 @@ module ImuDeployment {
     stack size Default.STACK_SIZE \
     priority 40
 
+  instance IMUManager: Components.IMUManager base id 0x1234000 \
+    queue size Default.QUEUE_SIZE \
+    stack size Default.STACK_SIZE \
+    priority 41
+
   # ----------------------------------------------------------------------
   # Queued component instances
   # ----------------------------------------------------------------------
@@ -67,5 +72,7 @@ module ImuDeployment {
   instance timer: Svc.LinuxTimer base id 0x10013000
 
   instance comDriver: Drv.TcpServer base id 0x10014000
+
+  instance i2cDriver: Drv.LinuxI2cDriver base id 0x10024000
 
 }
