@@ -30,7 +30,9 @@ void IMUManager ::run_handler(FwIndexType portNum, U32 context) {
 // ----------------------------------------------------------------------
 
 void IMUManager ::resetIMU_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
-    // TODO
+    
+    
+
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
 }
 
