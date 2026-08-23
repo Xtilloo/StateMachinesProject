@@ -113,6 +113,12 @@ module Components {
             }
         }
 
+        @ Port for I2C bus communication
+        output port i2cWriteRead: Drv.I2cWriteRead
+        
+        @ Port for I2C bus communication
+        output port i2cWrite: Drv.I2c
+
         state machine instance IMUManagerInstance: IMUManagerSM
     }
 }

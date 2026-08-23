@@ -7,7 +7,7 @@
 // #include "fprime-sensors/MpuImu/Components/ImuManager/ImuManager.hpp"
 #include "IMU.hpp"
 
-namespace Components {
+namespace other {
 
 Drv::I2cStatus ImuManager ::reset() {
     // Attempt to write the reset data

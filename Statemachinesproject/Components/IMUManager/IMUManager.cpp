@@ -5,7 +5,6 @@
 // ======================================================================
 
 #include "Statemachinesproject/Components/IMUManager/IMUManager.hpp"
-#include "IMU.cpp"
 
 namespace Components {
 
@@ -31,8 +30,7 @@ void IMUManager ::run_handler(FwIndexType portNum, U32 context) {
 
 void IMUManager ::resetIMU_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     
-    
-
+    // This is where we reset the IMU
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
 }
 
@@ -72,12 +70,35 @@ bool IMUManager ::Components_IMUManager_IMUManagerSM_guard_configureSuccess(
     SmId smId,
     Components_IMUManager_IMUManagerSM::Signal signal) const {
     // TODO
+
+    return false;
 }
 
 bool IMUManager ::Components_IMUManager_IMUManagerSM_guard_operationSuccess(
     SmId smId,
     Components_IMUManager_IMUManagerSM::Signal signal) const {
     // TODO
+    return false;
+
+}
+
+Drv::I2cStatus IMUManager::reset() {
+    // Attempt to write the reset data
+    U8 reset_sequence[] = {POWER_MGMT_REGISTER, RESET_VALUE};
+    Fw::Buffer writeBuffer(reset_sequence, sizeof(reset_sequence));
+    Fw::Buffer readBuffer;
+    return this->bus_write(writeBuffer, readBuffer);
+}
+
+Drv::I2cStatus IMUManager ::bus_write(Fw::Buffer& writeBuffer, Fw::Buffer& readBuffer) {
+    Drv::I2cStatus status;
+    FW_ASSERT(writeBuffer.isValid());
+    if (readBuffer.isValid()) {
+        status = this->i2cWriteRead_out(0, this->m_address, writeBuffer, readBuffer);
+    } else {
+        status = this->i2cWrite_out(0, this->m_address, writeBuffer);
+    }
+    return status;
 }
 
 }  // namespace Components
