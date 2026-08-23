@@ -17,10 +17,23 @@ IMUManager ::IMUManager(const char* const compName) : IMUManagerComponentBase(co
 IMUManager ::~IMUManager() {}
 
 // ----------------------------------------------------------------------
+// Handler implementations for typed input ports
+// ----------------------------------------------------------------------
+
+void IMUManager ::run_handler(FwIndexType portNum, U32 context) {
+    // TODO
+}
+
+// ----------------------------------------------------------------------
 // Handler implementations for commands
 // ----------------------------------------------------------------------
 
-void IMUManager ::TODO_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
+void IMUManager ::resetIMU_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
+    // TODO
+    this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
+}
+
+void IMUManager ::readSensorData_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     // TODO
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
 }
