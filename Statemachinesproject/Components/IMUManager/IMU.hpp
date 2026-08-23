@@ -8,7 +8,7 @@
 #define MpuImu_ImuTypes_HPP
 #include "Fw/FPrimeBasicTypes.hpp"
 
-namespace MpuImu {
+namespace Components {
     static constexpr U8 DATA_LENGTH = (6 + 1) * sizeof(U16);  // 6 DoF + temperature
     static constexpr U8 DATA_BASE_REGISTER = 0x3B;
     static constexpr U8 DEVICE_DEFAULT_ADDRESS = 0x68;

@@ -4,10 +4,10 @@
 // \brief  cpp file for ImuManager component helper function implementations
 // ======================================================================
 
-#include "fprime-sensors/MpuImu/Components/ImuManager/ImuManager.hpp"
-#include "fprime-sensors/MpuImu/Components/ImuManager/ImuTypes.hpp"
+// #include "fprime-sensors/MpuImu/Components/ImuManager/ImuManager.hpp"
+#include "IMU.hpp"
 
-namespace MpuImu {
+namespace Components {
 
 Drv::I2cStatus ImuManager ::reset() {
     // Attempt to write the reset data
