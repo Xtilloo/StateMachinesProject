@@ -92,17 +92,19 @@ class IMUManager final : public IMUManagerComponentBase {
     //!
     //! This guards whether we can move into IDLE or START
     bool Components_IMUManager_IMUManagerSM_guard_configureSuccess(
-        SmId smId,                                         //!< The state machine id
-        Components_IMUManager_IMUManagerSM::Signal signal  //!< The signal
+        SmId smId,                                          //!< The state machine id
+        Components_IMUManager_IMUManagerSM::Signal signal,  //!< The signal
+        const Fw::Success& value                            //!< The value
     ) const override;
 
     //! Implementation for guard operationSuccess of state machine Components_IMUManager_IMUManagerSM
     bool Components_IMUManager_IMUManagerSM_guard_operationSuccess(
-        SmId smId,                                         //!< The state machine id
-        Components_IMUManager_IMUManagerSM::Signal signal  //!< The signal
+        SmId smId,                                          //!< The state machine id
+        Components_IMUManager_IMUManagerSM::Signal signal,  //!< The signal
+        const Fw::Success& value                            //!< The value
     ) const override;
 
-    Drv::I2cStatus reset();
+    
 
     U8 m_address = 0x68;
 
@@ -133,6 +135,13 @@ class IMUManager final : public IMUManagerComponentBase {
         I16 temperature;
         I16 gyroscope[3];
     };
+
+    Drv::I2cStatus enable();
+
+    Drv::I2cStatus reset();
+    Drv::I2cStatus configure_device();
+    Drv::I2cStatus read();
+    RawImuData deserialize_raw_data(Fw::Buffer& buffer);
 };
 
 }  // namespace Components
