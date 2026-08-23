@@ -58,15 +58,21 @@ module Components {
 
             action configureSensor
 
-            signal configSuccess
+            signal configureTermination
 
-            signal operationSuccess
+            guard configureSuccess
+
+            guard operationSuccess
 
             signal reset
+
+            signal operationTermination
 
             signal initialized
 
             signal read
+
+            initial enter START
 
             state START {
 
@@ -80,8 +86,12 @@ module Components {
 
                 entry do { configureSensor }
 
-                if configureSuccess enter IDLE else enter START
+                on configureTermination enter CONFIG_STAT
 
+            }
+
+            choice CONFIG_STAT {
+                if configureSuccess enter IDLE else enter START
             }
 
             state IDLE {
@@ -96,8 +106,12 @@ module Components {
 
                 entry do { readSensor }
 
-                if operationSuccess enter IDLE else enter START
+                on operationTermination enter OP_STAT
 
+            }
+
+            choice OP_STAT {
+                if operationSuccess enter IDLE else enter START
             }
         }
     }
