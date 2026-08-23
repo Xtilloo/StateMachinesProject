@@ -47,5 +47,58 @@ module Components {
         @Port to set the value of a parameter
         param set port prmSetOut
 
+        state machine IMUManager {
+
+            signal rateGrouptTick
+
+            @ Power Cycle Signal: Perform steps 1 and 2 in IMU Data Flow
+            action powerCycle
+
+            action readSensor
+
+            action configureSensor
+
+            signal configSuccess
+
+            signal operationSuccess
+
+            signal reset
+
+            signal initialized
+
+            signal read
+
+            state START {
+
+                entry do { powerCycle }
+
+                on initialized enter CONFIG
+
+            }
+
+            state CONFIG {
+
+                entry do { configureSensor }
+
+                if configureSuccess enter IDLE else enter START
+
+            }
+
+            state IDLE {
+                 
+                on read enter OPER
+
+                on reset enter START
+
+            }
+
+            state OPER {
+
+                entry do { readSensor }
+
+                if operationSuccess enter IDLE else enter START
+
+            }
+        }
     }
 }
