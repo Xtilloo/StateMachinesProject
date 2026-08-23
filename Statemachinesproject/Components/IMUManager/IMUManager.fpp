@@ -47,17 +47,21 @@ module Components {
         @Port to set the value of a parameter
         param set port prmSetOut
 
-        state machine IMUManager {
+        state machine IMUManagerSM {
 
             @ Power Cycle Signal: Perform steps 1 and 2 in IMU Data Flow
             action powerCycle
 
+            @ This action is what reads the sensor measurements
             action readSensor
 
+            @ This action is what configures the sensor
             action configureSensor
 
+            @ This signal occurs when the configuration period is complete
             signal configureTermination
 
+            @ This guards whether we can move into IDLE or START
             guard configureSuccess
 
             guard operationSuccess
@@ -75,7 +79,6 @@ module Components {
             state START {
 
                 entry do { powerCycle }
-
                 on initialized enter CONFIG
 
             }
@@ -83,7 +86,6 @@ module Components {
             state CONFIG {
 
                 entry do { configureSensor }
-
                 on configureTermination enter CONFIG_STAT
 
             }
@@ -95,7 +97,6 @@ module Components {
             state IDLE {
                  
                 on read enter OPER
-
                 on reset enter START
 
             }
@@ -103,7 +104,6 @@ module Components {
             state OPER {
 
                 entry do { readSensor }
-
                 on operationTermination enter OP_STAT
 
             }
@@ -112,5 +112,7 @@ module Components {
                 if operationSuccess enter IDLE else enter START
             }
         }
+
+        state machine instance IMUManagerInstance: IMUManagerSM
     }
 }
