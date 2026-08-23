@@ -29,7 +29,7 @@ void IMUManager ::run_handler(FwIndexType portNum, U32 context) {
 // ----------------------------------------------------------------------
 
 void IMUManager ::resetIMU_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
-    
+    Drv::I2cStatus status = this->reset();
     // This is where we reset the IMU
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
 }

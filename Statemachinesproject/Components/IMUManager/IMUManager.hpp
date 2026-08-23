@@ -102,7 +102,7 @@ class IMUManager final : public IMUManagerComponentBase {
         Components_IMUManager_IMUManagerSM::Signal signal  //!< The signal
     ) const override;
 
-    Drv::I2cStatus IMUManager::reset();
+    Drv::I2cStatus reset();
 
     U8 m_address = 0x68;
 
