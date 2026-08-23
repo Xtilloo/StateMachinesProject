@@ -59,16 +59,16 @@ module Components {
             action configureSensor
 
             @ This signal occurs when the configuration period is complete
-            signal configureTermination
+            signal configureTermination: Fw.Success
 
             @ This guards whether we can move into IDLE or START
-            guard configureSuccess
+            guard configureSuccess: Fw.Success
 
-            guard operationSuccess
+            guard operationSuccess: Fw.Success
 
             signal reset
 
-            signal operationTermination
+            signal operationTermination: Fw.Success
 
             signal initialized
 

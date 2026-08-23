@@ -99,7 +99,7 @@ RawImuData ImuManager ::deserialize_raw_data(Fw::Buffer& buffer) {
     return raw;
 }
 
-ImuData ImuManager ::convert_raw_data(const RawImuData& raw,
+ ImuManager ::convert_raw_data(const RawImuData& raw,
                                       const AccelerationRange& accelerationRange,
                                       const GyroscopeRange& gyroscopeRange) {
     // Set the values of the IMU data by multiplying by conversion factors
