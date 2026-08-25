@@ -4,8 +4,8 @@
 // \brief  cpp file for ImuManager component helper function implementations
 // ======================================================================
 
-// #include "fprime-sensors/MpuImu/Components/ImuManager/ImuManager.hpp"
-#include "IMU.hpp"
+#include "ImuHelpers.hpp"
+
 
 namespace other {
 
@@ -62,7 +62,7 @@ Drv::I2cStatus ImuManager ::configure_device() {
     return status;
 }
 
-Drv::I2cStatus ImuManager ::read(ImuData& imuData) {
+Drv::I2cStatus IMUManager ::read(ImuData& imuData) {
     U8 data[DATA_LENGTH];
     U8 registerAddress = DATA_BASE_REGISTER;
 

@@ -7,7 +7,7 @@
 #ifndef Components_IMUManager_HPP
 #define Components_IMUManager_HPP
 
-#include "Statemachinesproject/Components/IMUManager/IMUManagerComponentAc.hpp"
+#include "Components/IMUManager/IMUManagerComponentAc.hpp"
 
 namespace Components {
 
@@ -136,8 +136,8 @@ class IMUManager final : public IMUManagerComponentBase {
         I16 gyroscope[3];
     };
 
+    // Helper functions
     Drv::I2cStatus enable();
-
     Drv::I2cStatus reset();
     Drv::I2cStatus configure_device();
     Drv::I2cStatus read();

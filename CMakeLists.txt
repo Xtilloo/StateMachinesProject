@@ -16,5 +16,5 @@ fprime_setup_included_code()
 
 
 # This includes project-wide objects
-add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Statemachinesproject")
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Components/")
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ImuDeployment/")

@@ -4,8 +4,9 @@
 // \brief  cpp file for IMUManager component implementation class
 // ======================================================================
 
-#include "Statemachinesproject/Components/IMUManager/IMUManager.hpp"
+#include "Components/IMUManager/IMUManager.hpp"
 #include <unistd.h>
+#include "ImuHelpers.hpp"
 
 namespace Components {
 

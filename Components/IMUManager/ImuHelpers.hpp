@@ -4,8 +4,8 @@
 // \brief  hpp file for defining constants and types for ImuHelpers.cpp
 // ======================================================================
 
-#ifndef MpuImu_ImuTypes_HPP
-#define MpuImu_ImuTypes_HPP
+#ifndef ImuHelpers_HPP
+#define ImuHelpers_HPP
 #include "Fw/FPrimeBasicTypes.hpp"
 
 namespace Components {
@@ -36,5 +36,50 @@ namespace Components {
         I16 temperature;
         I16 gyroscope[3];
     };
+
+    // Struct representing ImuData
+    struct ImuData {
+        // Accelerations from the accelerometer
+        GeometricVector3 acceleration;
+
+        // Angular rates from the Gyroscope
+        GeometricVector3 rotation;
+
+        // Temeperature in degrees celsius
+        F32 temperature;
+    };
+
+    // Struct representing X, Y, Z data
+    struct GeometricVector3 {
+        F32 x;
+        F32 y;
+        F32 z;
+    };
+
+    // Range of the accelerometer in G's, integer values represent the conversion factor for the raw values from
+    // the accelerometer registers to Gs
+    enum AccelerationRange {
+        RANGE_2G = 16384,
+        RANGE_4G = 8192,
+        RANGE_8G = 4096,
+        RANGE_16G = 2048,
+    } U16;
+
+    // Range of the gyroscope in degrees per second, integer values represent the conversion factor for the raw values from
+    // the gyroscope registers to 10ths of a degree per second
+    enum GyroscopeRange {
+        RANGE_250DEG = 1310,
+        RANGE_500DEG = 655,
+        RANGE_1000DEG = 328,
+        RANGE_2000DEG = 164,
+    } U16;
+
+    // Function Definitions
+    Drv::I2cStatus reset();
+    Drv::I2cStatus read_reset(U8& value);
+    Drv::I2cStatus enable();
+    Drv::I2cStatus read_configuration();
+    Drv::I2cStatus read(ImuData& imuData);
+
 }
 #endif
