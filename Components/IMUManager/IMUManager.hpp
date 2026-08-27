@@ -8,6 +8,7 @@
 #define Components_IMUManager_HPP
 
 #include "Components/IMUManager/IMUManagerComponentAc.hpp"
+#include "ImuHelpers.hpp"
 
 namespace Components {
 
@@ -129,19 +130,8 @@ class IMUManager final : public IMUManagerComponentBase {
     static constexpr F32 TEMPERATURE_SCALAR = 340.0f;
     static constexpr F32 TEMPERATURE_OFFSET = 36.53f;
 
-    //! RawImuData: basic structure of imu data as read from the device
-    struct RawImuData {
-        I16 acceleration[3];
-        I16 temperature;
-        I16 gyroscope[3];
-    };
+    ImuHelpers m_imuHelpers;
 
-    // Helper functions
-    Drv::I2cStatus enable();
-    Drv::I2cStatus reset();
-    Drv::I2cStatus configure_device();
-    Drv::I2cStatus read();
-    RawImuData deserialize_raw_data(Fw::Buffer& buffer);
 };
 
 }  // namespace Components

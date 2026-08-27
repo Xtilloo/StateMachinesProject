@@ -19,9 +19,11 @@ register_fprime_library(
         "${CMAKE_CURRENT_LIST_DIR}/IMUManager.fpp"
     SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/IMUManager.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/ImuHelpers.cpp"
 #   DEPENDS
 #       MyPackage_MyOtherModule
 )
+
 
 ### Unit Tests ###
 # register_fprime_ut(
