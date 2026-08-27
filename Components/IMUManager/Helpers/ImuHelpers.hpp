@@ -113,8 +113,11 @@ namespace Components {
         static constexpr U8 GYRO_CONFIG_500DEG = 0x08;
         static constexpr U8 GYRO_CONFIG_1000DEG = 0x10;
         static constexpr U8 GYRO_CONFIG_2000DEG = 0x18;
-        static constexpr F32 TEMPERATURE_SCALAR = 340.0f;
         static constexpr F32 TEMPERATURE_OFFSET = 36.53f;
+        
+        static constexpr F32 TEMPERATURE_SCALAR = 340.0f;
+        static constexpr F32 ACCEL_CONV_FACTOR = 1.0f;
+        static constexpr F32 GYRO_CONV_FACTOR = 10.0f;
 
         I2cWriteReadFn m_i2cWriteRead;
         I2cWriteFn m_i2cWrite;

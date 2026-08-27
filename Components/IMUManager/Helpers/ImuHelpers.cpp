@@ -30,7 +30,7 @@ Drv::I2cStatus ImuHelpers::enable() {
     U8 power_on_sequence[] = {POWER_MGMT_REGISTER, POWER_ON_VALUE};
     Fw::Buffer writeBuffer(power_on_sequence, sizeof(power_on_sequence));
     Fw::Buffer readBuffer;
-    return this->bus_write(writeBuffer, readBuffer);
+    return bus_write(writeBuffer, readBuffer);
 }
 
 Drv::I2cStatus ImuHelpers::configure_device(AccelerationRange accelerationRange, GyroscopeRange gyroscopeRange) {
@@ -40,7 +40,7 @@ Drv::I2cStatus ImuHelpers::configure_device(AccelerationRange accelerationRange,
         U8 accel_config_sequence[] = {ACCEL_CONFIG_REGISTER, accelerometer_range_to_register(accelerationRange)};
         Fw::Buffer writeBuffer(accel_config_sequence, sizeof(accel_config_sequence));
         Fw::Buffer readBuffer;
-        status = this->bus_write(writeBuffer, readBuffer);
+        status = bus_write(writeBuffer, readBuffer);
         if (status != Drv::I2cStatus::I2C_OK) {
             return status;
         }
@@ -51,7 +51,7 @@ Drv::I2cStatus ImuHelpers::configure_device(AccelerationRange accelerationRange,
         U8 gyro_config_sequence[] = {GYRO_CONFIG_REGISTER, gyroscope_range_to_register(gyroscopeRange)};
         Fw::Buffer writeBuffer(gyro_config_sequence, sizeof(gyro_config_sequence));
         Fw::Buffer readBuffer;
-        status = this->bus_write(writeBuffer, readBuffer);
+        status = bus_write(writeBuffer, readBuffer);
         if (status != Drv::I2cStatus::I2C_OK) {
             return status;
         }
@@ -70,7 +70,7 @@ Drv::I2cStatus ImuHelpers::read(
     Fw::Buffer writeBuffer(&registerAddress, 1);
     Fw::Buffer readBuffer(data, DATA_LENGTH);
     // If bus write fails, state machine is reset, so just return
-    Drv::I2cStatus status = this->bus_write(writeBuffer, readBuffer);
+    Drv::I2cStatus status = bus_write(writeBuffer, readBuffer);
     if (status != Drv::I2cStatus::I2C_OK) {
         return status;
     }
@@ -81,15 +81,19 @@ Drv::I2cStatus ImuHelpers::read(
 }
 
 ImuHelpers::RawImuData ImuHelpers::deserialize_raw_data(Fw::Buffer& buffer) {
-    auto deserializer = buffer.getDeserializer();
+    Fw::ExternalSerializeBufferWithMemberCopy deserializer = buffer.getDeserializer();
     RawImuData raw;
-    deserializer.deserializeTo(raw.acceleration[0]);
-    deserializer.deserializeTo(raw.acceleration[1]);
-    deserializer.deserializeTo(raw.acceleration[2]);
-    deserializer.deserializeTo(raw.temperature);
-    deserializer.deserializeTo(raw.gyroscope[0]);
-    deserializer.deserializeTo(raw.gyroscope[1]);
-    deserializer.deserializeTo(raw.gyroscope[2]);
+    U8 DATA_SIZE = 7;
+
+    if (deserializer.getSize() >= DATA_SIZE) {
+        deserializer.deserializeTo(raw.acceleration[0]);
+        deserializer.deserializeTo(raw.acceleration[1]);
+        deserializer.deserializeTo(raw.acceleration[2]);
+        deserializer.deserializeTo(raw.temperature);
+        deserializer.deserializeTo(raw.gyroscope[0]);
+        deserializer.deserializeTo(raw.gyroscope[1]);
+        deserializer.deserializeTo(raw.gyroscope[2]);
+    }
     return raw;
 }
 
@@ -98,22 +102,22 @@ ImuHelpers::ImuData ImuHelpers::convert_raw_data(const RawImuData& raw,
                                       const GyroscopeRange& gyroscopeRange) {
     // Set the values of the IMU data by multiplying by conversion factors
     ImuData imuData;
-
+    
     // Set acceleration values
-    imuData.acceleration.x = static_cast<F32>(raw.acceleration[0]) * 1.0f /
+    imuData.acceleration.x = static_cast<F32>(raw.acceleration[0]) * ACCEL_CONV_FACTOR /
                                      static_cast<F32>(accelerationRange);
-    imuData.acceleration.y = static_cast<F32>(raw.acceleration[1]) * 1.0f /
+    imuData.acceleration.y = static_cast<F32>(raw.acceleration[1]) * ACCEL_CONV_FACTOR /
                                      static_cast<F32>(accelerationRange);
-    imuData.acceleration.z = static_cast<F32>(raw.acceleration[2]) * 1.0f /
+    imuData.acceleration.z = static_cast<F32>(raw.acceleration[2]) * ACCEL_CONV_FACTOR /
                                      static_cast<F32>(accelerationRange);
 
     // Set temperature value
     imuData.temperature = ((static_cast<F32>(raw.temperature) / TEMPERATURE_SCALAR) + TEMPERATURE_OFFSET);
    
     // Set rotation values
-    imuData.rotation.x = static_cast<F32>(raw.gyroscope[0]) * 10.0f / static_cast<F32>(gyroscopeRange);
-    imuData.rotation.y = static_cast<F32>(raw.gyroscope[1]) * 10.0f / static_cast<F32>(gyroscopeRange);
-    imuData.rotation.z = static_cast<F32>(raw.gyroscope[2]) * 10.0f / static_cast<F32>(gyroscopeRange);
+    imuData.rotation.x = static_cast<F32>(raw.gyroscope[0]) * GYRO_CONV_FACTOR / static_cast<F32>(gyroscopeRange);
+    imuData.rotation.y = static_cast<F32>(raw.gyroscope[1]) * GYRO_CONV_FACTOR / static_cast<F32>(gyroscopeRange);
+    imuData.rotation.z = static_cast<F32>(raw.gyroscope[2]) * GYRO_CONV_FACTOR / static_cast<F32>(gyroscopeRange);
 
     return imuData;
 }
