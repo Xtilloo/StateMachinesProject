@@ -1,7 +1,7 @@
 // ======================================================================
 // \title  ImuHelpers.hpp
-// \author mstarch
-// \brief  hpp file for defining constants and types for ImuHelpers.cpp
+// \author xtilloo
+// \brief  hpp file for defining constant, types, and function definitions for ImuHelpers.cpp
 // ======================================================================
 
 #ifndef ImuHelpers_HPP

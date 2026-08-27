@@ -1,7 +1,7 @@
 // ======================================================================
 // \title  ImuHelpers.cpp
-// \author mstarch
-// \brief  cpp file for ImuManager component helper function implementations
+// \author xtilloo
+// \brief  cpp file containing IMU helper implementation
 // ======================================================================
 
 #include "ImuHelpers.hpp"
@@ -35,7 +35,7 @@ Drv::I2cStatus ImuHelpers::enable() {
 
 Drv::I2cStatus ImuHelpers::configure_device(AccelerationRange accelerationRange, GyroscopeRange gyroscopeRange) {
     Drv::I2cStatus status = Drv::I2cStatus::I2C_OK;
-    // Read accelerometer parameter and configure
+    // Configure accelerometer
     {
         U8 accel_config_sequence[] = {ACCEL_CONFIG_REGISTER, accelerometer_range_to_register(accelerationRange)};
         Fw::Buffer writeBuffer(accel_config_sequence, sizeof(accel_config_sequence));
@@ -46,7 +46,7 @@ Drv::I2cStatus ImuHelpers::configure_device(AccelerationRange accelerationRange,
         }
     }
 
-    // Read gyroscope parameter and configure
+    // Configure gyroscope
     {
         U8 gyro_config_sequence[] = {GYRO_CONFIG_REGISTER, gyroscope_range_to_register(gyroscopeRange)};
         Fw::Buffer writeBuffer(gyro_config_sequence, sizeof(gyro_config_sequence));

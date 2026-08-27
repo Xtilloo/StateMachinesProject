@@ -126,19 +126,4 @@ bool IMUManager ::Components_IMUManager_IMUManagerSM_guard_operationSuccess(
     }
 }
 
-// ---------------------------------------------------------------------
-// User-Defined Implementations
-// ---------------------------------------------------------------------
-
-Drv::I2cStatus IMUManager ::bus_write(Fw::Buffer& writeBuffer, Fw::Buffer& readBuffer) {
-    Drv::I2cStatus status;
-    FW_ASSERT(writeBuffer.isValid());
-    if (readBuffer.isValid()) {
-        status = this->i2cWriteRead_out(0, this->m_address, writeBuffer, readBuffer);
-    } else {
-        status = this->i2cWrite_out(0, this->m_address, writeBuffer);
-    }
-    return status;
-}
-
 }  // namespace Components

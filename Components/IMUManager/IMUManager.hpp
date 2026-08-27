@@ -8,7 +8,7 @@
 #define Components_IMUManager_HPP
 
 #include "Components/IMUManager/IMUManagerComponentAc.hpp"
-#include "ImuHelpers.hpp"
+#include "Helpers/ImuHelpers.hpp"
 
 namespace Components {
 
@@ -80,9 +80,6 @@ class IMUManager final : public IMUManagerComponentBase {
         SmId smId,                                         //!< The state machine id
         Components_IMUManager_IMUManagerSM::Signal signal  //!< The signal
         ) override;
-
-    Drv::I2cStatus bus_write(Fw::Buffer& writeBuffer, Fw::Buffer& readBuffer);
-
 
   private:
     // ----------------------------------------------------------------------
